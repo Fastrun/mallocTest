@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <stdio.h>
 char* pointers[1024*1024];
-int total_mem = 0;
 int main() {
 	clock_t start,end;
 	start = clock();
