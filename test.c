@@ -24,12 +24,13 @@ int main() {
         }
     }
     int size;
+	int total_mem;
 	for (size = 10; size < 1024; size += 5) {
 		printf("%d.	size %d begin\n",size,size);
 		int i;
-        int total_mem = 0;
+        total_mem = 0;
 		for (i = 0; i < max; i ++) {
-			if ((i+size)%2==0) {
+			if ( (i + size)%2 == 0) {
 				pointers[i] = (char*)malloc(i%size);
                 total_mem += i%size;
 				int j;
@@ -40,9 +41,9 @@ int main() {
 			}
 		}
 		printf("	alloc %d bytes\n",total_mem*2);
-		if (size == 1020) sleep(45);// just to see memory usage in monitor
+		//if (size == 1020) sleep(45);// just to see memory usage in monitor
 		for (i = 0; i < max; i ++) {
-			if ((i+size)%2==1) {
+			if ( (i + size)%2 == 1) {
 				free(pointers[i]);
 			}
 		}
@@ -50,6 +51,18 @@ int main() {
 		printf("	size %d end, use %lus\n",size,(temp-end)/CLOCKS_PER_SEC);
 		end = temp;
 	}
+	total_mem /= 2;// because half of the memory has been freed.
+	//test5 starts here
+	for (i = 1; i < max; i += 2) {
+		if ( (i-1)%1024 == 0 ) {
+			pointers[i] = (char*)malloc(1024000);
+			total_mem += 1024000;
+			int j;
+			for (j = 0; j < 1024000; j ++) pointers[i][j] = 'a';
+		}
+	}
+	printf("final alloc %d bytes\n",total_mem);
+	sleep(50);
 	end = clock();
 	int total_time = (end-start)/CLOCKS_PER_SEC;
 	printf("total time is %ds\n",total_time);
