@@ -25,7 +25,7 @@ int main() {
     }
     int size;
 	int total_mem;
-	for (size = 10; size < 1024; size += 5) {
+	for (size = 10; size < 4096; size += 41) {
 		printf("%d.	size %d begin\n",size,size);
 		int i;
         total_mem = 0;
