@@ -40,7 +40,7 @@ int main() {
 				}
 			}
 		}
-		printf("	alloc %d bytes\n",total_mem*2);
+		printf("	alloc %d Mbytes\n",total_mem*2/(1024*1024));
 		//if (size == 1020) sleep(45);// just to see memory usage in monitor
 		for (i = 0; i < max; i ++) {
 			if ( (i + size)%2 == 1) {
@@ -61,8 +61,8 @@ int main() {
 			for (j = 0; j < 1024000; j ++) pointers[i][j] = 'a';
 		}
 	}
-	printf("final alloc %d bytes\n",total_mem);
-	sleep(50);
+	printf("final alloc %d Mbytes i=%d\n",total_mem/(1024*1024),i);
+	sleep(150);
 	end = clock();
 	int total_time = (end-start)/CLOCKS_PER_SEC;
 	printf("total time is %ds\n",total_time);
