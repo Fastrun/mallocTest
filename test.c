@@ -51,7 +51,7 @@ int main() {
 		printf("	size %d end, use %lus\n",size,(temp-end)/CLOCKS_PER_SEC);
 		end = temp;
 	}
-	total_mem /= 2;// because half of the memory has been freed.
+	//total_mem /= 2;// because half of the memory has been freed.
 	//test5 starts here
 	for (i = 1; i < max; i += 2) {
 		if ( (i-1)%1024 == 0 ) {
