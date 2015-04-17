@@ -3,26 +3,45 @@
 #include <unistd.h>
 #include <stdio.h>
 char* pointers[1024*1024];
+int total_mem = 0;
 int main() {
-	int size;
 	clock_t start,end;
 	start = clock();
 	end = start;
-	for (size = 0; size < 1024; size += 5) {
+    int max = 1024*1024;
+    int i;
+    for (i = 0; i < max; i ++) {
+		pointers[i] = (char*)malloc(5);
+		int j;
+		for (j = 0; j < 5; j ++) {
+			pointers[i][j] = 'a';
+		}
+    }printf(" begin i=%d\n",i);
+    for (i = 0; i < max; i ++) {
+        if (i%2==0) {
+            free(pointers[i]);
+        }
+    }
+    int size;
+	for (size = 10; size < 1024; size += 5) {
 		printf("%d.	size %d begin\n",size,size);
 		int i;
-		int max = 1024*1024;
-		for (int i = 0; i < max; i ++) {
-			pointers[i] = (char*)malloc(size);
-			int j;
-			for (j = 0; j < size; j ++) {
-				pointers[i][j] = 'a';	
+        
+		for (i = 0; i < max; i ++) {
+			if ((i+size)%2==0) {
+				pointers[i] = (char*)malloc(size);
+				int j;
+				for (j = 0; j < size; j ++) {
+					pointers[i][j] = 'a';	
+				}
 			}
 		}
-		printf("	alloc %d bytes\n",max*size);
+		printf("	alloc %d bytes\n",size*max);
 		if (size == 1020) sleep(45);// just to see memory usage in monitor
-		for (int i = 0; i < max; i ++) {
-			free(pointers[i]);
+		for (i = 0; i < max; i ++) {
+			if ((i+size)%2==1) {
+				free(pointers[i]);
+			}
 		}
 		clock_t temp = clock();
 		printf("	size %d end, use %lus\n",size,(temp-end)/CLOCKS_PER_SEC);
