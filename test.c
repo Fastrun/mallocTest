@@ -51,17 +51,18 @@ int main() {
 		printf("	size %d end, use %lus\n",size,(temp-end)/CLOCKS_PER_SEC);
 		end = temp;
 	}
-	total_mem /= 2;// because half of the memory has been freed.
+	//total_mem /= 2;// because half of the memory has been freed.
 	//test5 starts here
+    int mb = 1024*1024;
 	for (i = 1; i < max; i += 2) {
 		if ( (i-1)%1024 == 0 ) {
-			pointers[i] = (char*)malloc(1024000);
-			total_mem += 1024000;
+			pointers[i] = (char*)malloc(mb);
+			total_mem += mb;
 			int j;
-			for (j = 0; j < 1024000; j ++) pointers[i][j] = 'a';
+			for (j = 0; j < mb; j ++) pointers[i][j] = 'a';
 		}
 	}
-	printf("final alloc %d Mbytes\n",total_mem(1024*1024));
+	printf("final alloc %d Mbytes\n",total_mem/(1024*1024));
 	sleep(50);
 	end = clock();
 	int total_time = (end-start)/CLOCKS_PER_SEC;
